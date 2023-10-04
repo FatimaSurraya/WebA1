@@ -1,0 +1,88 @@
+﻿@model IEnumerable<WebA1.Models.New_model.Product>
+@{
+    ViewBag.Title = "Product";
+}
+
+
+<h2>Product</h2>
+
+<head>
+    <style>
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            max-width: 300px;
+            margin: auto;
+            text-align: center;
+            font-family: arial;
+        }
+
+        .price {
+            color: grey;
+            font-size: 22px;
+        }
+
+        .card button {
+            border: none;
+            outline: 0;
+            padding: 12px;
+            color: white;
+            background-color: #000;
+            text-align: center;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px;
+        }
+
+        .card button:hover {
+            opacity: 0.7;
+        }
+    </style>
+</head>
+
+
+
+<h2 style="text-align:center">Product Card</h2>
+<body>
+    @{ var i = 1;}
+    @foreach (var product in Model)
+    {
+        <div class="card">
+            <div onclick="ShowDetails(@product.Product_ID)">
+                @{ var imgSrc = "../content/images/stock" + @i + ".jpg";}
+                <img src="@imgSrc" ,alt="stock3" width="100" height="100" />
+
+                <h1>@product.Name</h1>
+                <p class="price">$@product.Cost</p>
+                <p>@product.Description</p>
+            </div>
+            <p><a class="btn btn-success" href="/Order/Order">Add to Cart</a></p>
+        </div>
+        i++;
+    }
+
+    <div class=”counter”>
+        <div class=”btn”>+</div>
+        <div class=”count”>2</div>
+        <div class=”btn”>-</div>
+    </div>
+
+    <script>
+        function placeOrder(button) {
+            // Get the product ID from the data attribute
+            var productId = button.getAttribute("data-product-id");
+            // Remove the image from the product card
+            var productCard = button.parentElement;
+            var productImage = productCard.querySelector("img");
+            productImage.remove();
+            // Disable the button
+            button.disabled = true;
+            button.textContent = "Order Placed";
+            // TODO: Add code to process the order and update the database
+        }
+        function ShowDetails(id) {
+            window.location.href = "/Product/Details/" + id;
+        }
+    </script>
+
+
+</body>
